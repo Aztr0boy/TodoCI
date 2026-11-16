@@ -52,15 +52,11 @@ python -m pytest -v
 
 ## CI/CD
 ### 1) GitHub — รวมโค้ดด้วย branch + Pull Request
-สร้าง repository บน GitHub แล้ว push โปรเจกต์ขึ้นไป สมาชิกแต่ละคนทำงานบน branch ของตัวเอง และเปิด Pull Request เพื่อ review ก่อน merge เข้า `main`
+repository ของโปรเจกต์: https://github.com/Aztr0boy/TodoCI สมาชิกแต่ละคน clone repository ทำงานบน branch ของตัวเอง และเปิด Pull Request เพื่อ review ก่อน merge เข้า `main`
 
 ```bash
-git init -b main
-git add .
-git commit -m "Initial TodoCI project"
-git remote add origin https://github.com/<account>/<repository>.git
-git push -u origin main
-
+git clone https://github.com/Aztr0boy/TodoCI.git
+cd TodoCI
 git checkout -b feature/<ชื่อฟีเจอร์>
 # แก้ไขและทดสอบงาน
 git add .
@@ -78,7 +74,7 @@ Jenkins agent ใช้ได้ทั้ง Windows และ Linux/macOS โ�
 4. ตั้ง **Poll SCM** เป็น `H/5 * * * *` หรือใช้ GitHub webhook หากตั้งค่า webhook ไว้แล้ว
 5. กด **Save → Build Now** แล้วตรวจ Console Output และผล JUnit
 
-> Stage `Deploy` ในโปรเจกต์นี้เป็นการ deploy จำลองใน Jenkins workspace: จัดแพ็กไฟล์ไปยัง `deploy/`, เปิดเว็บชั่วคราวเพื่อตรวจ health/API และเก็บ `todo-app.tar.gz` เป็น Jenkins artifact ไม่ได้เผยแพร่เว็บขึ้น public hosting
+> Stage `Deploy` ในโปรเจกต์นี้เป็นการ deploy จำลอง: จัดเตรียมแอปใน temporary directory, เปิดเว็บชั่วคราวเพื่อตรวจ health/API และเก็บ `todo-app.tar.gz` เป็น Jenkins artifact ไม่ได้เผยแพร่เว็บขึ้น public hosting
 
 | Stage | ทำอะไร |
 |---|---|
@@ -89,9 +85,11 @@ Jenkins agent ใช้ได้ทั้ง Windows และ Linux/macOS โ�
 ### สถานะส่งงาน
 - ระบบ TodoCI, unit/API/CLI tests และ Jenkins pipeline มีอยู่แล้ว
 - ตรวจในเครื่องแล้ว: `python -m pytest -q` ได้ **38 passed**
-- GitHub repository `Aztr0boy/TodoCI` มีอยู่แล้ว แต่ตอนตรวจยังว่าง ต้อง push โค้ดขึ้นไปก่อนตั้ง Jenkins SCM
-- Jenkins ในเครื่องทำงานบน Windows; pipeline รองรับ Windows และ Linux/macOS
-- ยังต้องทำ: push โค้ด, ตั้ง Jenkins ให้ชี้ repository, รัน pipeline จริง และจับภาพผลสำเร็จ
+- GitHub: https://github.com/Aztr0boy/TodoCI (มี source code และ Jenkinsfile)
+- Jenkins Job: http://localhost:8080/job/TodoCI/ — Build #1 ผ่าน Checkout SCM, Build, Test, Deploy และ Post Actions
+- Jenkins Test Report แสดง 38 passed; artifact `todo-app.tar.gz` ถูกเก็บใน Build #1
+- Pipeline Overview screenshot แสดงในบทสนทนานี้; บันทึกภาพแนบรายงานส่งงานได้
+- สมาชิกกลุ่มยังต้องทำ branch/Pull Request ของตนเองและใส่รายชื่อในสไลด์
 - สไลด์และรายการตรวจส่งงานอยู่ที่ [`docs/todoci-presentation.html`](docs/todoci-presentation.html) และ [`docs/DELIVERY_CHECKLIST.md`](docs/DELIVERY_CHECKLIST.md)
 
 ดูการแบ่งงานและลำดับสาธิตได้ในสไลด์ หรือเปิด checklist ก่อนนำเสนอ
