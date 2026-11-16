@@ -64,7 +64,7 @@ code{color:#d7d0ff;font-size:.9em}
     <article class="card"><h3>แนวทาง</h3><p>รวมงานไว้ใน TodoCI กำหนดความสำคัญ แท็ก วันครบกำหนด และสถานะได้</p></article>
     <article class="card"><h3>ขอบเขตตัวอย่าง</h3><p>ระบบขนาดเล็กที่รันได้จริง เน้นสาธิตแนวคิดและ pipeline ไม่ใช่ production hosting</p></article>
   </div>
-  <div class="footer"><span>TodoCI · Mini-Project</span><span>02 / 08</span></div>
+  <div class="footer"><span>TodoCI · Mini-Project</span><span>02 / 11</span></div>
 </section>
 <section class="slide">
   <div class="eyebrow">02 · ฟังก์ชันระบบ</div><h2>ทำอะไรได้บ้าง?</h2>
@@ -76,33 +76,69 @@ code{color:#d7d0ff;font-size:.9em}
     <article class="card"><h3>ช่องทางใช้งาน</h3><p>หน้าเว็บ, REST API และ CLI</p></article>
     <article class="card"><h3>ข้อมูล</h3><p>บันทึก JSON และรองรับภาษาไทย</p></article>
   </div>
-  <div class="footer"><span>TodoCI · Mini-Project</span><span>03 / 08</span></div>
+  <div class="footer"><span>TodoCI · Mini-Project</span><span>03 / 11</span></div>
 </section>
 <section class="slide">
   <div class="eyebrow">03 · สถาปัตยกรรม</div><h2>โครงสร้างระบบ</h2>
   <div class="flow"><span class="step">หน้าเว็บ / CLI</span><span class="arrow">→</span><span class="step">REST API · server.py</span><span class="arrow">→</span><span class="step">TodoList · todo.py</span><span class="arrow">→</span><span class="step">JSON · storage.py</span></div>
   <p>แยก business logic, การจัดเก็บข้อมูล และช่องทางใช้งานออกจากกัน ทำให้ทดสอบแต่ละส่วนได้</p>
   <div class="note"><p><b>ทดสอบในเครื่องแล้ว:</b> <span class="good">38 passed</span> ครอบคลุม logic, storage, CLI และ API</p></div>
-  <div class="footer"><span>TodoCI · Mini-Project</span><span>04 / 08</span></div>
+  <div class="footer"><span>TodoCI · Mini-Project</span><span>04 / 11</span></div>
 </section>
 <section class="slide">
-  <div class="eyebrow">04 · แผน 2 สัปดาห์</div><h2>แบ่งงานสำหรับกลุ่ม 3–4 คน</h2>
+  <div class="eyebrow">04 · ลำดับการทำงานของโค้ด</div><h2>จากการใช้งานสู่การบันทึก</h2>
+  <div class="flow"><span class="step">หน้าเว็บ / CLI</span><span class="arrow">→</span><span class="step">server.py / app.py</span><span class="arrow">→</span><span class="step">TodoList · todo.py</span><span class="arrow">→</span><span class="step">storage.py · JSON</span></div>
+  <div class="grid">
+    <article class="card"><h3>1 · โหลดข้อมูล</h3><p>อ่านไฟล์ tasks.json แล้วสร้าง TodoList; ถ้ายังไม่มีไฟล์ เริ่มจากรายการว่าง</p></article>
+    <article class="card"><h3>2 · ทำงานตามคำสั่ง</h3><p>เว็บส่ง request ไป API ส่วน CLI รับคำสั่งจาก terminal แล้วเรียก logic หลัก</p></article>
+    <article class="card"><h3>3 · ตรวจและเปลี่ยนข้อมูล</h3><p>TodoList เพิ่ม แก้ ลบ เปลี่ยนสถานะ ค้นหา กรอง เรียง และคำนวณสถิติ</p></article>
+    <article class="card"><h3>4 · บันทึก / แสดงผล</h3><p>คำสั่งที่แก้ข้อมูลบันทึกกลับ JSON; ผลลัพธ์ส่งเป็น JSON ให้เว็บ หรือข้อความให้ CLI</p></article>
+  </div>
+  <div class="note"><p><b>จุดสำคัญ:</b> เว็บและ CLI ใช้กฎงานใน <code>todo.py</code> ร่วมกัน จึงได้ผลลัพธ์และการตรวจข้อมูลแบบเดียวกัน</p></div>
+  <div class="footer"><span>TodoCI · Mini-Project</span><span>05 / 11</span></div>
+</section>
+<section class="slide">
+  <div class="eyebrow">05 · Logic และข้อมูล</div><h2>แกนหลักใน <code>todo.py</code></h2>
+  <div class="grid three">
+    <article class="card"><h3>Task · หนึ่งรายการ</h3><p>เก็บ id, ชื่อ, สถานะ, กำหนดส่ง, ความสำคัญ, แท็ก และวันที่ทำเสร็จ</p></article>
+    <article class="card"><h3>TodoList · จัดการรายการ</h3><p>สร้าง ID ต่อเนื่อง เพิ่ม/แก้/ลบงาน และเปลี่ยนสถานะ todo → doing → done</p></article>
+    <article class="card"><h3>ตรวจข้อมูลก่อนใช้</h3><p>ชื่อห้ามว่างและไม่เกิน 200 ตัวอักษร; วันใช้ YYYY-MM-DD; สถานะและ priority ต้องอยู่ในค่าที่กำหนด</p></article>
+    <article class="card"><h3>ค้นหาและจัดลำดับ</h3><p>กรองตามสถานะ ความสำคัญ แท็ก หรือคำค้น; เรียงตาม ID วันส่ง ความสำคัญ หรือชื่อ</p></article>
+    <article class="card"><h3>สรุปความคืบหน้า</h3><p>นับงานแต่ละสถานะ งานค้างแยกความสำคัญ งานเลยกำหนด และเปอร์เซ็นต์ที่ทำเสร็จ</p></article>
+    <article class="card"><h3>storage.py · เก็บถาวร</h3><p>แปลงรายการเป็น JSON; เขียนไฟล์ชั่วคราวก่อนแทนไฟล์จริง เพื่อลดความเสี่ยงไฟล์เสีย</p></article>
+  </div>
+  <div class="footer"><span>TodoCI · Mini-Project</span><span>06 / 11</span></div>
+</section>
+<section class="slide">
+  <div class="eyebrow">06 · เว็บและ REST API</div><h2>คำขอหนึ่งครั้งผ่านอะไรบ้าง?</h2>
+  <div class="flow"><span class="step">หน้าเว็บ fetch()</span><span class="arrow">→</span><span class="step">server.py รับ route</span><span class="arrow">→</span><span class="step">TodoList ทำงาน</span><span class="arrow">→</span><span class="step">ตอบ JSON</span></div>
+  <div class="grid">
+    <article class="card"><h3>ตัวอย่าง: เพิ่มงาน</h3><p>เว็บส่ง <code>POST /api/tasks</code> พร้อม title, due, priority และ tags; เซิร์ฟเวอร์ตรวจ JSON แล้วเรียก <code>add()</code></p></article>
+    <article class="card"><h3>คำขอที่พบบ่อย</h3><p><code>GET /api/tasks</code> แสดง/ค้นหางาน · <code>PATCH /api/tasks/&lt;id&gt;</code> แก้ไขหรือเปลี่ยนสถานะ · <code>DELETE</code> ลบงาน</p></article>
+    <article class="card"><h3>จัดการความถูกต้อง</h3><p>ล็อกข้อมูลขณะจัดการคำขอ ป้องกันการเขียนชนกัน; ข้อมูลผิดตอบ 400 และไม่พบงานตอบ 404</p></article>
+    <article class="card"><h3>ข้อมูลบนหน้าเว็บ</h3><p>โหลดรายการและสถิติจาก API แล้วแสดงสถานะ กำหนดส่ง งานเลยกำหนด และแถบความคืบหน้า</p></article>
+  </div>
+  <div class="note"><p>API หลัก: <code>GET /health</code>, <code>GET /api/stats</code> และ <code>POST /api/clear-done</code> สำหรับตรวจระบบ ดูสถิติ และล้างงานที่เสร็จ</p></div>
+  <div class="footer"><span>TodoCI · Mini-Project</span><span>07 / 11</span></div>
+</section>
+<section class="slide">
+  <div class="eyebrow">07 · แผน 2 สัปดาห์</div><h2>แบ่งงานสำหรับกลุ่ม 3–4 คน</h2>
   <div class="grid">
     <article class="card"><h3>สัปดาห์ที่ 1 · สร้างและรวมระบบ</h3><p>วัน 1–2: กำหนดขอบเขตและแบ่งงาน</p><p>วัน 3–5: ทำ feature คนละ branch</p><p>วัน 6–7: Pull Request, review และรวมเข้า main</p></article>
     <article class="card"><h3>สัปดาห์ที่ 2 · CI/CD และนำเสนอ</h3><p>วัน 8–9: ตั้ง GitHub และ Jenkins</p><p>วัน 10–11: ทดสอบ Build/Test/Deploy และแก้ปัญหา</p><p>วัน 12–14: เก็บหลักฐาน ซ้อม demo และนำเสนอ</p></article>
   </div>
   <p class="small">บทบาทแนะนำ: ผู้ประสานงาน/เอกสาร · ผู้พัฒนาระบบ · ผู้ดูแล GitHub/Jenkins · ผู้ทดสอบ/นำเสนอ (รวมบทบาทได้เมื่อมี 3 คน)</p>
-  <div class="footer"><span>TodoCI · Mini-Project</span><span>05 / 08</span></div>
+  <div class="footer"><span>TodoCI · Mini-Project</span><span>08 / 11</span></div>
 </section>
 <section class="slide">
-  <div class="eyebrow">05 · GitHub</div><h2>ทำงานร่วมกันด้วย Branch และ PR</h2>
+  <div class="eyebrow">08 · GitHub</div><h2>ทำงานร่วมกันด้วย Branch และ PR</h2>
   <div class="flow"><span class="step">main</span><span class="arrow">←</span><span class="step">feature branch</span><span class="arrow">→</span><span class="step">Pull Request</span><span class="arrow">→</span><span class="step">Review / Merge</span></div>
   <ul><li>แยกงานเป็น branch เพื่อลดการแก้ไฟล์ชนกัน</li><li>เปิด Pull Request เพื่ออธิบายและ review การเปลี่ยนแปลง</li><li>รวมโค้ดที่ตรวจแล้วเข้า main ซึ่ง Jenkins ใช้เป็น source</li></ul>
   <div class="note"><p><span class="good">Repository พร้อมแล้ว:</span> https://github.com/Aztr0boy/TodoCI · สมาชิกแต่ละคนทำงานผ่าน branch และ Pull Request</p></div>
-  <div class="footer"><span>TodoCI · Mini-Project</span><span>06 / 08</span></div>
+  <div class="footer"><span>TodoCI · Mini-Project</span><span>09 / 11</span></div>
 </section>
 <section class="slide">
-  <div class="eyebrow">06 · Jenkins CI/CD</div><h2>ทุกครั้งที่มีการเปลี่ยนแปลง</h2>
+  <div class="eyebrow">09 · Jenkins CI/CD</div><h2>ทุกครั้งที่มีการเปลี่ยนแปลง</h2>
   <div class="flow"><span class="step">GitHub SCM</span><span class="arrow">→</span><span class="step">Build</span><span class="arrow">→</span><span class="step">Test</span><span class="arrow">→</span><span class="step">Deploy</span></div>
   <div class="grid three">
     <article class="card"><h3>Build</h3><p>สร้าง venv, ติดตั้ง requirements และตรวจ syntax</p></article>
@@ -110,12 +146,12 @@ code{color:#d7d0ff;font-size:.9em}
     <article class="card"><h3>Deploy</h3><p>จัดไฟล์, เปิดเว็บชั่วคราว, smoke test API และเก็บ tar.gz</p></article>
   </div>
   <p class="small">Deploy เป็นการจำลองใน Jenkins workspace ไม่ใช่เว็บ public</p>
-  <div class="footer"><span>TodoCI · Mini-Project</span><span>07 / 08</span></div>
+  <div class="footer"><span>TodoCI · Mini-Project</span><span>10 / 11</span></div>
 </section>
 <section class="slide">
-  <div class="eyebrow">07 · สาธิต</div><h2>Demo flow</h2>
+  <div class="eyebrow">10 · สาธิต</div><h2>Demo flow</h2>
   <ol><li>เปิดหน้าเว็บและเพิ่มงาน พร้อมกำหนดวัน/ความสำคัญ</li><li>ค้นหาและกรองงาน จากนั้นเปลี่ยนสถานะเป็น doing และ done</li><li>รัน `python -m pytest -q` ให้เห็นผลทดสอบ</li><li>เปิด Jenkins build แสดง Build, Test, Deploy และ artifact</li></ol>
-  <div class="footer"><span>TodoCI · Mini-Project</span><span>08 / 08</span></div>
+  <div class="footer"><span>TodoCI · Mini-Project</span><span>11 / 11</span></div>
 </section>
 <nav class="controls" aria-label="Slide controls">
   <button id="prev" type="button" aria-label="สไลด์ก่อนหน้า">←</button>
