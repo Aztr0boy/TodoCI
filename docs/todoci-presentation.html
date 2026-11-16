@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TodoCI — Mini-Project CI/CD</title>
+<style>
+:root{color-scheme:dark;--bg:#101526;--panel:#1a2340;--ink:#f4f6ff;--muted:#b7c0da;--accent:#a99bff;--green:#70e1b5;--yellow:#ffd479;--red:#ff8b9b}
+*{box-sizing:border-box}
+body{margin:0;background:#0a0e19;color:var(--ink);font-family:"Sarabun","Noto Sans Thai",Tahoma,sans-serif}
+.slide{width:min(100vw,calc(100vh * 16 / 9));height:min(100vh,calc(100vw * 9 / 16));min-height:480px;margin:0 auto;padding:6% 8%;display:none;position:relative;overflow:hidden;background:radial-gradient(ellipse at 90% 0%,#34306b 0,transparent 38%),linear-gradient(145deg,#141b31,#0d1323)}
+.slide.active{display:flex;flex-direction:column;justify-content:center}
+.slide:after{content:"";position:absolute;width:320px;height:320px;border:1px solid #ffffff12;border-radius:50%;right:-140px;bottom:-180px;box-shadow:0 0 0 35px #ffffff08,0 0 0 70px #ffffff05;pointer-events:none}
+.eyebrow{font-size:clamp(12px,1.3vw,18px);letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1{font-size:clamp(40px,7vw,86px);line-height:1.05;margin:14px 0}
+h2{font-size:clamp(30px,4.2vw,54px);line-height:1.12;margin:8px 0 24px}
+h3{font-size:clamp(18px,2vw,25px);margin:0 0 8px;color:var(--green)}
+p,li{font-size:clamp(16px,1.8vw,23px);line-height:1.5;color:var(--muted)}
+p.lead{font-size:clamp(20px,2.4vw,30px);max-width:900px}
+ul{padding-left:1.2em;margin:8px 0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.card{background:#1b2440dc;border:1px solid #ffffff16;border-radius:18px;padding:20px 22px}
+.card p{margin:4px 0 0}
+.tag{display:inline-block;border:1px solid #a99bff77;background:#a99bff18;color:#d4ceff;border-radius:99px;padding:5px 13px;margin:6px 6px 0 0;font-size:clamp(13px,1.35vw,17px)}
+.flow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:20px 0}
+.step{background:var(--panel);border:1px solid #ffffff20;border-radius:14px;padding:14px 18px;font-size:clamp(16px,1.8vw,23px);font-weight:700}
+.arrow{color:var(--accent);font-size:24px}
+.note{border-left:4px solid var(--yellow);padding:10px 16px;background:#ffd47912;border-radius:0 10px 10px 0}
+.good{color:var(--green)}.pending{color:var(--yellow)}.small{font-size:clamp(12px,1.2vw,16px)}
+.footer{position:absolute;bottom:22px;left:8%;right:8%;display:flex;justify-content:space-between;color:#8691b1;font-size:14px;z-index:2}
+.controls{position:fixed;right:18px;bottom:16px;display:flex;gap:8px;z-index:5}
+button{border:1px solid #ffffff2b;border-radius:10px;background:#1a2340;color:white;padding:9px 14px;font:inherit;cursor:pointer}
+button:hover{background:#303b61}button:focus-visible{outline:2px solid var(--accent)}
+#counter{min-width:54px;text-align:center;padding:9px;color:var(--muted)}
+code{color:#d7d0ff;font-size:.9em}
+@media(max-width:700px){.slide{padding:7% 7%;min-height:420px}.grid,.grid.three{grid-template-columns:1fr 1fr}.card{padding:12px}.footer{bottom:12px}.controls{bottom:8px;right:8px}}
+@media print{
+  @page{size:landscape;margin:0}
+  body{background:#101526;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .slide{display:flex!important;width:100vw;height:100vh;min-height:0;page-break-after:always;break-after:page}
+  .controls{display:none}
+}
+</style>
+</head>
+<body>
+<section class="slide active">
+  <div class="eyebrow">Mini-Project · GitHub + Jenkins</div>
+  <h1>TodoCI</h1>
+  <p class="lead">ระบบจัดการรายการงานตัวอย่าง สำหรับสาธิตการทำงานร่วมกันและ CI/CD ตั้งแต่ source code จนถึง deploy</p>
+  <div><span class="tag">กลุ่ม 3–4 คน</span><span class="tag">ระยะเวลา 2 สัปดาห์</span><span class="tag">Python · REST API</span></div>
+  <div class="footer"><span>ชื่อสมาชิก: [ใส่ชื่อสมาชิก]</span><span>ลิงก์ GitHub: [ใส่ลิงก์ GitHub]</span></div>
+</section>
+<section class="slide">
+  <div class="eyebrow">01 · เลือกระบบ</div><h2>ปัญหาและแนวคิด</h2>
+  <p class="lead">งานและกำหนดส่งกระจายอยู่หลายที่ ทำให้ติดตามสถานะและงานที่เลยกำหนดยาก</p>
+  <div class="grid">
+    <article class="card"><h3>แนวทาง</h3><p>รวมงานไว้ใน TodoCI กำหนดความสำคัญ แท็ก วันครบกำหนด และสถานะได้</p></article>
+    <article class="card"><h3>ขอบเขตตัวอย่าง</h3><p>ระบบขนาดเล็กที่รันได้จริง เน้นสาธิตแนวคิดและ pipeline ไม่ใช่ production hosting</p></article>
+  </div>
+  <div class="footer"><span>TodoCI · Mini-Project</span><span>02 / 09</span></div>
+</section>
+<section class="slide">
+  <div class="eyebrow">02 · ฟังก์ชันระบบ</div><h2>ทำอะไรได้บ้าง?</h2>
+  <div class="grid three">
+    <article class="card"><h3>จัดการงาน</h3><p>เพิ่ม แก้ไข ลบ และล้างงานที่เสร็จแล้ว</p></article>
+    <article class="card"><h3>ติดตาม</h3><p>สถานะ todo / doing / done และวันครบกำหนด</p></article>
+    <article class="card"><h3>ค้นหา</h3><p>ค้นหา กรอง และเรียงตามวันหรือความสำคัญ</p></article>
+    <article class="card"><h3>สรุปผล</h3><p>แสดงจำนวนงาน งานเลยกำหนด และอัตราความสำเร็จ</p></article>
+    <article class="card"><h3>ช่องทางใช้งาน</h3><p>หน้าเว็บ, REST API และ CLI</p></article>
+    <article class="card"><h3>ข้อมูล</h3><p>บันทึก JSON และรองรับภาษาไทย</p></article>
+  </div>
+  <div class="footer"><span>TodoCI · Mini-Project</span><span>03 / 09</span></div>
+</section>
+<section class="slide">
+  <div class="eyebrow">03 · สถาปัตยกรรม</div><h2>โครงสร้างระบบ</h2>
+  <div class="flow"><span class="step">หน้าเว็บ / CLI</span><span class="arrow">→</span><span class="step">REST API · server.py</span><span class="arrow">→</span><span class="step">TodoList · todo.py</span><span class="arrow">→</span><span class="step">JSON · storage.py</span></div>
+  <p>แยก business logic, การจัดเก็บข้อมูล และช่องทางใช้งานออกจากกัน ทำให้ทดสอบแต่ละส่วนได้</p>
+  <div class="note"><p><b>ทดสอบในเครื่องแล้ว:</b> <span class="good">38 passed</span> ครอบคลุม logic, storage, CLI และ API</p></div>
+  <div class="footer"><span>TodoCI · Mini-Project</span><span>04 / 09</span></div>
+</section>
+<section class="slide">
+  <div class="eyebrow">04 · แผน 2 สัปดาห์</div><h2>แบ่งงานสำหรับกลุ่ม 3–4 คน</h2>
+  <div class="grid">
+    <article class="card"><h3>สัปดาห์ที่ 1 · สร้างและรวมระบบ</h3><p>วัน 1–2: กำหนดขอบเขตและแบ่งงาน</p><p>วัน 3–5: ทำ feature คนละ branch</p><p>วัน 6–7: Pull Request, review และรวมเข้า main</p></article>
+    <article class="card"><h3>สัปดาห์ที่ 2 · CI/CD และนำเสนอ</h3><p>วัน 8–9: ตั้ง GitHub และ Jenkins</p><p>วัน 10–11: ทดสอบ Build/Test/Deploy และแก้ปัญหา</p><p>วัน 12–14: เก็บหลักฐาน ซ้อม demo และนำเสนอ</p></article>
+  </div>
+  <p class="small">บทบาทแนะนำ: ผู้ประสานงาน/เอกสาร · ผู้พัฒนาระบบ · ผู้ดูแล GitHub/Jenkins · ผู้ทดสอบ/นำเสนอ (รวมบทบาทได้เมื่อมี 3 คน)</p>
+  <div class="footer"><span>TodoCI · Mini-Project</span><span>05 / 09</span></div>
+</section>
+<section class="slide">
+  <div class="eyebrow">05 · GitHub</div><h2>ทำงานร่วมกันด้วย Branch และ PR</h2>
+  <div class="flow"><span class="step">main</span><span class="arrow">←</span><span class="step">feature branch</span><span class="arrow">→</span><span class="step">Pull Request</span><span class="arrow">→</span><span class="step">Review / Merge</span></div>
+  <ul><li>แยกงานเป็น branch เพื่อลดการแก้ไฟล์ชนกัน</li><li>เปิด Pull Request เพื่ออธิบายและ review การเปลี่ยนแปลง</li><li>รวมโค้ดที่ตรวจแล้วเข้า main ซึ่ง Jenkins ใช้เป็น source</li></ul>
+  <div class="note"><p><span class="pending">ต้องเติมก่อนส่ง:</span> สร้าง GitHub repository จริงและใส่ URL ในหน้าปก</p></div>
+  <div class="footer"><span>TodoCI · Mini-Project</span><span>06 / 09</span></div>
+</section>
+<section class="slide">
+  <div class="eyebrow">06 · Jenkins CI/CD</div><h2>ทุกครั้งที่มีการเปลี่ยนแปลง</h2>
+  <div class="flow"><span class="step">GitHub SCM</span><span class="arrow">→</span><span class="step">Build</span><span class="arrow">→</span><span class="step">Test</span><span class="arrow">→</span><span class="step">Deploy</span></div>
+  <div class="grid three">
+    <article class="card"><h3>Build</h3><p>สร้าง venv, ติดตั้ง requirements และตรวจ syntax</p></article>
+    <article class="card"><h3>Test</h3><p>รัน pytest 38 tests และเผยแพร่รายงาน JUnit</p></article>
+    <article class="card"><h3>Deploy</h3><p>จัดไฟล์, เปิดเว็บชั่วคราว, smoke test API และเก็บ tar.gz</p></article>
+  </div>
+  <p class="small">Deploy เป็นการจำลองใน Jenkins workspace ไม่ใช่เว็บ public</p>
+  <div class="footer"><span>TodoCI · Mini-Project</span><span>07 / 09</span></div>
+</section>
+<section class="slide">
+  <div class="eyebrow">07 · สาธิต</div><h2>Demo flow</h2>
+  <ol><li>เปิดหน้าเว็บและเพิ่มงาน พร้อมกำหนดวัน/ความสำคัญ</li><li>ค้นหาและกรองงาน จากนั้นเปลี่ยนสถานะเป็น doing และ done</li><li>รัน `python -m pytest -q` ให้เห็นผลทดสอบ</li><li>เปิด Jenkins build แสดง Build, Test, Deploy และ artifact</li></ol>
+  <p class="small">รันเว็บในเครื่อง: <code>python server.py --port 3002</code> แล้วเปิด <code>http://localhost:3002</code></p>
+  <div class="footer"><span>TodoCI · Mini-Project</span><span>08 / 09</span></div>
+</section>
+<section class="slide">
+  <div class="eyebrow">08 · สรุปและส่งงาน</div><h2>สถานะปัจจุบัน</h2>
+  <div class="grid">
+    <article class="card"><h3 class="good">พร้อมในโปรเจกต์</h3><p>ระบบและชุดทดสอบ · 38 tests ผ่าน · Jenkinsfile · สไลด์และ checklist</p></article>
+    <article class="card"><h3 class="pending">ต้องทำบนบริการจริง</h3><p>GitHub URL · Jenkins build สำเร็จ · ภาพหน้าจอ Jenkins และ artifact</p></article>
+  </div>
+  <p class="lead">ขอบคุณครับ/ค่ะ · คำถาม</p>
+  <div class="footer"><span>ตรวจรายการส่งงาน: docs/DELIVERY_CHECKLIST.md</span><span>09 / 09</span></div>
+</section>
+<nav class="controls" aria-label="Slide controls">
+  <button id="prev" type="button" aria-label="สไลด์ก่อนหน้า">←</button>
+  <span id="counter" aria-live="polite"></span>
+  <button id="next" type="button" aria-label="สไลด์ถัดไป">→</button>
+</nav>
+<script>
+const slides=[...document.querySelectorAll(".slide")];
+const counter=document.querySelector("#counter");
+let current=0;
+function show(index){
+  current=(index+slides.length)%slides.length;
+  slides.forEach((slide,i)=>slide.classList.toggle("active",i===current));
+  counter.textContent=`${current+1} / ${slides.length}`;
+  history.replaceState(null,"",`#${current+1}`);
+}
+document.querySelector("#prev").addEventListener("click",()=>show(current-1));
+document.querySelector("#next").addEventListener("click",()=>show(current+1));
+document.addEventListener("keydown",event=>{
+  if(event.key==="ArrowRight"||event.key===" "){event.preventDefault();show(current+1);}
+  if(event.key==="ArrowLeft"){event.preventDefault();show(current-1);}
+  if(event.key==="Home")show(0);
+  if(event.key==="End")show(slides.length-1);
+});
+const requested=Number(location.hash.slice(1));
+show(Number.isInteger(requested)&&requested>0?requested-1:0);
+</script>
+</body>
+</html>
