@@ -28,6 +28,7 @@ ul{padding-left:1.2em;margin:8px 0}
 .arrow{color:var(--accent);font-size:24px}
 .note{border-left:4px solid var(--yellow);padding:10px 16px;background:#ffd47912;border-radius:0 10px 10px 0}
 .good{color:var(--green)}.pending{color:var(--yellow)}.small{font-size:clamp(12px,1.2vw,16px)}
+.team{margin-top:20px;color:var(--muted);font-size:clamp(14px,1.55vw,20px);line-height:1.6}
 .footer{position:absolute;bottom:22px;left:8%;right:8%;display:flex;justify-content:space-between;color:#8691b1;font-size:14px;z-index:2}
 .controls{position:fixed;right:18px;bottom:16px;display:flex;gap:8px;z-index:5}
 button{border:1px solid #ffffff2b;border-radius:10px;background:#1a2340;color:white;padding:9px 14px;font:inherit;cursor:pointer}
@@ -49,7 +50,12 @@ code{color:#d7d0ff;font-size:.9em}
   <h1>TodoCI</h1>
   <p class="lead">ระบบจัดการรายการงานตัวอย่าง สำหรับสาธิตการทำงานร่วมกันและ CI/CD ตั้งแต่ source code จนถึง deploy</p>
   <div><span class="tag">กลุ่ม 3–4 คน</span><span class="tag">ระยะเวลา 2 สัปดาห์</span><span class="tag">Python · REST API</span></div>
-  <div class="footer"><span>ชื่อสมาชิก: [ใส่ชื่อสมาชิก]</span><span>GitHub: https://github.com/Aztr0boy/TodoCI</span></div>
+  <div class="team" aria-label="สมาชิกกลุ่ม">
+    <div>ธนวันต์ ทรงเดชาไกรวุฒิ · 6752410006</div>
+    <div>ภควัตร เอมละออ · 6752410017</div>
+    <div>ธาดาภัทร ธาราธราดล · 6752410028</div>
+  </div>
+  <div class="footer"><span>สมาชิก 3 คน</span><span>GitHub: https://github.com/Aztr0boy/TodoCI</span></div>
 </section>
 <section class="slide">
   <div class="eyebrow">01 · เลือกระบบ</div><h2>ปัญหาและแนวคิด</h2>
@@ -116,7 +122,7 @@ code{color:#d7d0ff;font-size:.9em}
   <div class="eyebrow">08 · สรุปและส่งงาน</div><h2>สถานะปัจจุบัน</h2>
   <div class="grid">
     <article class="card"><h3 class="good">ทำสำเร็จแล้ว</h3><p>GitHub repository · Jenkins Build #1 ทุก stage ผ่าน · 38 tests ผ่าน · artifact พร้อม</p></article>
-    <article class="card"><h3 class="pending">ก่อนส่งงาน</h3><p>ใส่ชื่อสมาชิก · ทำ branch/Pull Request ของกลุ่ม · แนบภาพ Pipeline Overview</p></article>
+    <article class="card"><h3 class="pending">ก่อนส่งงาน</h3><p>ทำ branch/Pull Request ของกลุ่ม · แนบภาพ Pipeline Overview</p></article>
   </div>
   <p class="lead">ขอบคุณครับ/ค่ะ · คำถาม</p>
   <div class="footer"><span>ตรวจรายการส่งงาน: docs/DELIVERY_CHECKLIST.md</span><span>09 / 09</span></div>

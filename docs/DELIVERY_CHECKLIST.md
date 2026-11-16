@@ -12,7 +12,7 @@
 | Jenkins Deploy | ผ่านแล้ว | Smoke test health/API ผ่านและเก็บ `todo-app.tar.gz` เป็น artifact |
 | ลิงก์ GitHub | ทำแล้ว | https://github.com/Aztr0boy/TodoCI |
 | ภาพหน้าจอ Jenkins | จับภาพแล้ว | Pipeline Overview ของ Build #1 แสดงทุก stage เป็นสีเขียวในบทสนทนานี้ |
-| สไลด์นำเสนอ | ทำแล้ว | เปิด `todoci-presentation.html` ใน browser; ใช้ปุ่มลูกศรเปลี่ยนสไลด์ |
+| สไลด์นำเสนอ | ทำแล้ว | เปิด `todoci-presentation.html` ใน browser; หน้าปกระบุสมาชิกทั้ง 3 คนแล้ว |
 
 ## ขั้นตอนก่อนส่ง
 
@@ -20,6 +20,6 @@
 2. ตรวจ Jenkins job ที่ http://localhost:8080/job/TodoCI/
 3. ดาวน์โหลด/ตรวจ `todo-app.tar.gz` จาก Jenkins Build #1 artifacts
 4. บันทึกภาพ Pipeline Overview ที่แสดงผลสำเร็จจากภาพในบทสนทนา แล้วแนบในงานส่ง
-5. เติมชื่อสมาชิกในหน้าปกสไลด์ก่อนนำเสนอ
+5. ตรวจชื่อสมาชิกและรหัสในหน้าปกก่อนนำเสนอ
 
 > Deploy ในตัวอย่างเป็นการจำลองพร้อม smoke test ไม่ใช่ public hosting หากอาจารย์ต้องการ URL เว็บที่เปิดจากภายนอก ต้องกำหนด hosting/เครื่องปลายทางและ credentials เพิ่มเติม

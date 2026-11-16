@@ -89,7 +89,7 @@ Jenkins agent ใช้ได้ทั้ง Windows และ Linux/macOS โ�
 - Jenkins Job: http://localhost:8080/job/TodoCI/ — Build #1 ผ่าน Checkout SCM, Build, Test, Deploy และ Post Actions
 - Jenkins Test Report แสดง 38 passed; artifact `todo-app.tar.gz` ถูกเก็บใน Build #1
 - Pipeline Overview screenshot แสดงในบทสนทนานี้; บันทึกภาพแนบรายงานส่งงานได้
-- สมาชิกกลุ่มยังต้องทำ branch/Pull Request ของตนเองและใส่รายชื่อในสไลด์
+- สมาชิกกลุ่มยังต้องทำ branch/Pull Request ของตนเอง
 - สไลด์และรายการตรวจส่งงานอยู่ที่ [`docs/todoci-presentation.html`](docs/todoci-presentation.html) และ [`docs/DELIVERY_CHECKLIST.md`](docs/DELIVERY_CHECKLIST.md)
 
 ดูการแบ่งงานและลำดับสาธิตได้ในสไลด์ หรือเปิด checklist ก่อนนำเสนอ
